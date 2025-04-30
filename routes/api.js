@@ -17,4 +17,14 @@ router.get('/data', async (req, res) => {
 	}
 })
 
+//Task employee data
+router.get('/employees', async (req, res) => {
+	try {
+		const [rows] = await pool.query('SELECT * FROM current_employees');
+		res.json({ message: rows });
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
+})
+
 module.exports = router;
