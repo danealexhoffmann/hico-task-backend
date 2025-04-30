@@ -11,7 +11,7 @@ router.get('/test', (req, res) => {
 router.get('/data', async (req, res) => {
 	try {
 		const [rows] = await pool.query('SELECT * FROM your_table');
-		res.json(rows);
+		res.json({ message: rows });
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 	}
