@@ -41,4 +41,19 @@ router.post('/employees', async (req, res) => {
 	}
 })
 
+//Update employee data
+router.put('/employees/:id', async (req, res) => {
+	const { id } = req.params;
+	const { firstName, lastName, salutation, employeeNumber, grossSalary, profileColour } = req.body;
+	if (!firstName || !lastName || !salutation || !employeeNumber) {
+		return res.status(400).json({ error: 'Required fields are missing' });
+	}
+	try {
+		const [rows] = await pool.query('UPDATE current_employees SET first_name=?, last_name=?, salutation=?, employee_number=?, gross_salary=?, profile_colour=? WHERE id=?', [firstName, lastName, salutation, employeeNumber, grossSalary, profileColour, id]);
+		res.json({ message: 'Employee updated successfully' });
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
+})
+
 module.exports = router;
